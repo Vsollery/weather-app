@@ -26,7 +26,7 @@
                 alt="weather icon"
             />
             <p>
-              {{todayWeather.dt_txt }}
+              {{todayWeather.dt_txt.slice(11, 16) }}
             </p>
             <p class="text-3xl self-end">
               {{ Math.round(todayWeather.temp) }}&deg;
