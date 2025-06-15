@@ -1,5 +1,10 @@
 # weather-app
 
+# Venia Sollery Aliyya Hasna 😁
+
+## Weather Forcast for Today and Tommorow
+
+
 ## Project setup
 ```
 npm install
