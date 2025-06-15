@@ -4,9 +4,9 @@
     <div class="p-4 position-relative border rounded shadow bg-white m-4">
       <div class="position-absolute">
         <button
-            v-if="city.city !== 'Amsterdam'"
+            v-if="city.name !== 'Amsterdam'"
             class="text-bg-danger icon-link-hover font-bold text-lg"
-            @click="$emit('remove-city', city.id)"
+            @click="handleRemove(city.id)"
             aria-label="Remove city"
         >
           ✕
@@ -64,7 +64,16 @@
 
 <script setup lang="ts">
 import { defineProps, defineEmits } from "vue";
-defineEmits(["remove-city"]);
+
+const emit = defineEmits<{
+  // eslint-disable-next-line no-unused-vars
+  (event: 'remove-city', id: string): void;
+}>();
+
+function handleRemove(id: string) {
+  emit('remove-city', id)
+}
+// defineEmits(["remove-city"]);
 
 defineProps({
   savedCities: {

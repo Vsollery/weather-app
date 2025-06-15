@@ -30,31 +30,34 @@ function mapForecast(forecast: any){
 }
 
 export const getWeatherData = async (params: WeatherRequest): Promise<WeatherResponse> => {
+    try{
+        const response = await axiosPrivate.get('/data/2.5/forecast/',{
+            params : {
+                ...params,
+                appid: apiKey,
+            },
+        });
 
-    const response = await axiosPrivate.get('/data/2.5/forecast/',{
-        params : {
-            ...params,
-            appid: apiKey,
-        },
-    });
+        const forecasts = response.data.list;
+        const todayStr = formatDate(today);
+        const tomorrowStr = formatDate(tomorrow);
 
-    const forecasts = response.data.list;
-    const todayStr = formatDate(today);
-    const tomorrowStr = formatDate(tomorrow);
+        const weatherToday = forecasts
+            .filter((f: any) => f.dt_txt.startsWith(todayStr))
+            .map(mapForecast);
 
-    const weatherToday = forecasts
-        .filter((f: any) => f.dt_txt.startsWith(todayStr))
-        .map(mapForecast);
+        const weatherTomorrow = forecasts
+            .filter((f: any) => f.dt_txt.startsWith(tomorrowStr))
+            .map(mapForecast);
 
-    const weatherTomorrow = forecasts
-        .filter((f: any) => f.dt_txt.startsWith(tomorrowStr))
-        .map(mapForecast);
-
-    return {
-        weatherToday,
-        weatherTomorrow,
-    };
-
+        return {
+            weatherToday,
+            weatherTomorrow,
+        };
+    }catch(error){
+        console.log(error);
+        throw error;
+    }
 }
 
 export const getCityCoordinates = async (cityName: string): Promise<CityCoordinate[]> => {

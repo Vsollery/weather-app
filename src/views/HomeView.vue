@@ -60,6 +60,7 @@ import CityCard from "../components/CityCard.vue";
 import {WeatherResponse} from "@/types/weatherResponse";
 import {WeatherRequest} from "@/types/weatherRequest";
 import {City} from "@/types/city";
+import {uid} from "uid";
 
 const searchQuery = ref<any>("");
 const searchResults = ref<any>(null);
@@ -77,7 +78,6 @@ const getSearchResult = () => {
         console.log(result);
         searchResults.value = result;
       } catch (error) {
-        console.error(error);
         searchError.value = true;
       }
       return;
@@ -87,12 +87,16 @@ const getSearchResult = () => {
 };
 
 const savedCities = ref<City[]>([]);
-const addCity = (city:  City) => {
+const addCity = (city: City) => {
   const stored = localStorage.getItem("savedCities");
   if(stored){
     savedCities.value = JSON.parse(stored) as City[];
   }
-  savedCities.value.push(city);
+  const newCity : City = {
+    id: uid(),
+    ...city
+  }
+  savedCities.value.push(newCity);
   localStorage.setItem(
       "savedCities",
       JSON.stringify(savedCities.value)
@@ -131,6 +135,7 @@ const getCities = async () => {
 const removeCity = (id: string) => {
   const cities= JSON.parse(localStorage.getItem("savedCities"));
   const updatedCities = cities.filter((city: City) => city.id !== id);
+  console.log(updatedCities.value);
   localStorage.setItem("savedCities", JSON.stringify(updatedCities));
 
   getCities()
