@@ -13,12 +13,12 @@
         </button>
       </div>
       <div class="flex flex-col">
-        <h2 class="text-xl font-bold">{{city.city}}</h2>
+        <h2 class="text-xl font-bold">{{city.name}}</h2>
         <h2 class="text-xl font-bold">{{city.state}}</h2>
         <h3 class="text-sm text-gray-500">Today's Weather</h3>
       </div>
       <div class="flex flex-col">
-        <div class="flex-row align-items-center">
+        <div class="row align-items-center">
           <div class="col" v-for="todayWeather in city.weatherToday" :key="todayWeather.dt_txt">
             <img
                 class="w-auto h-[50px] object-cover"
